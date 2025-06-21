@@ -11,4 +11,5 @@ export default {
   emojiIcon: require('../assets/icons/emoji.png'),
   linkIcon: require('../assets/icons/link.png'),
   micIcon: require('../assets/icons/mic.png'),
+  heartIcon:require('../assets/icons/heartIcon.png'),
 };

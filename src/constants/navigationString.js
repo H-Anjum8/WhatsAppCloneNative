@@ -4,4 +4,7 @@ export default {
   STATUS_SCREEN: 'Status',
   CALL_SCREEN: 'Call',
   CHAT_MAIN: 'ChatMain',
+  Bottom_NAVIGATOR:'bottom-nav',
+  TABS_NAVIGATOR:'tabs-nav',
+  COMMUNITY_SCREEN:'community-screen'
 };

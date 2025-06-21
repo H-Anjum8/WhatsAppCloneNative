@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import ImageContainer from '../ImageContainer';
-import imagePath from '../../constants/imagePath';
-import colors from '../../style/colors';
 import {moderateScale, verticalScale, scale} from 'react-native-size-matters';
+import colors from '../../style/colors';
 
 const LongCardBtn = ({
   title,
   message,
+  time,
   rightItem = true,
   onPress,
   rightIcon = false,
@@ -17,19 +17,24 @@ const LongCardBtn = ({
   tintColor = null,
   imageBorderWidth = null,
 }) => {
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
       style={styles.container}>
       <View style={styles.content}>
-        <ImageContainer
-          image={imagePath.user}
-          width={60}
-          height={60}
-          tintColor={colors.blackOpacity25}
-          borderRadius={30}
+        <Image
+          source={image}
           style={{
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            marginRight: scale(12),
             borderWidth: imageBorderWidth,
             borderColor: colors.theme,
           }}
@@ -40,7 +45,7 @@ const LongCardBtn = ({
         </View>
       </View>
       <View style={styles.rightItemContainer}>
-        {rightIcon && (
+        {rightIcon ? (
           <TouchableOpacity>
             <ImageContainer
               image={image}
@@ -49,10 +54,9 @@ const LongCardBtn = ({
               tintColor={tintColor}
             />
           </TouchableOpacity>
-        )}
-        {!rightIcon && rightItem && (
-          <Text style={styles.subtitle}>12/12/12</Text>
-        )}
+        ) : rightItem && time ? (
+          <Text style={styles.subtitle}>{formatTime(time)}</Text>
+        ) : null}
       </View>
     </TouchableOpacity>
   );

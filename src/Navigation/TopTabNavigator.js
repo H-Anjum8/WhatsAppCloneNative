@@ -37,7 +37,7 @@ const TopTabNavigator = () => {
       style={{
         width: scale(22),
         height: verticalScale(22),
-        tintColor: colors.white,
+        tintColor: colors.black,
       }}
     />
   );
@@ -94,6 +94,7 @@ const TopTabNavigator = () => {
       <Tab.Screen name={CHAT_SCREEN} component={Chat} />
       <Tab.Screen name={STATUS_SCREEN} component={Status} />
       <Tab.Screen name={CALL_SCREEN} component={Calls} />
+      
     </Tab.Navigator>
   );
 };

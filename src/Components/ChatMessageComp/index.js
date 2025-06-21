@@ -31,6 +31,7 @@ const ChatMessageComp = () => {
       </View>
       <TouchableOpacity style={styles.imageButton}>
         <ImageContainer
+         
           image={iconsPath.micIcon}
           width={25}
           height={25}
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
   imageButton: {
     backgroundColor: colors.theme,
     padding: moderateScale(8),
-    borderRadius: moderateScale(12),
+    borderRadius: moderateScale(32),
   },
 });
 export default ChatMessageComp;

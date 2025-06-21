@@ -1,12 +1,12 @@
 export default {
-  theme: '#00A884',
+   theme: '#25d366',   //  #25d366
   themekOpacity10: 'rgba(0,168,132,0.1)',
   themekOpacity12: 'rgba(0,168,132,0.12)',
   themekOpacity15: 'rgba(0,168,132,0.15)',
   themekOpacity20: 'rgba(0,168,132,0.20)',
   themekOpacity25: 'rgba(0,168,132,0.25)',
   themekOpacity40: 'rgba(0,168,132,0.4)',
-  themekOpacity50: 'rgba(0,168,132,0.5)',
+  themekOpacity50: 'rgba(0, 168, 132, 0.67)',
   themekOpacity60: 'rgba(0,168,132,0.6)',
   themekOpacity70: 'rgba(0,168,132,0.7)',
   themekOpacity80: 'rgba(0,168,132,0.8)',
