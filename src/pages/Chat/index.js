@@ -10,71 +10,63 @@ import imagePath from '../../constants/imagePath.js';
 const Chat = () => {
   const navigation = useNavigation();
 
-  const data = [
-    {
-      id: 1,
-      title: 'Anum ❤️',
-      message: 'Jaldi complete kro project anum',
-      image: imagePath.user1,
-      time: '2025-06-20T14:10:00',
-    },
-    {
-      id: 2,
-      title: '❤️ Hubby ❤️',
-      message: 'Hello testing',
-      image: imagePath.user2,
-      time: '2025-06-20T13:45:00',
-    },
-    {
-      id: 3,
-      title: 'ShamshaArshad',
-      message: 'Hello',
-      image: imagePath.user3,
-      time: '2025-06-19T22:20:00',
-    },
-    {
-      id: 4,
-      title: 'Mama',
-      message: 'Aoa',
-      image: imagePath.user4,
-      time: '2025-06-18T17:35:00',
-    },
-    {
-      id: 5,
-      title: 'Usman bhai',
-      message: 'Salam',
-      image: imagePath.user5,
-      time: '2025-06-18T11:55:00',
-    },
-     {
-      id: 6,
-      title: 'Dua',
-      message: 'Kia kr ri ho',
-      image: imagePath.user6,
-      time: '2025-06-17T10:15:00',
-    },
-    {
-      id: 7,
-      title: '❤️ isha ❤️',
-      message: 'Kidr hain',
-      image: imagePath.user7,
-      time: '2025-06-17T09:05:00',
-    },
-     {
-      id: 8,
-      title: 'Dua',
-      message: 'Kia kr ri ho',
-      image: imagePath.user8,
-      time: '2025-06-17T10:15:00',
-    },
-    {
-      id: 9,
-      title: '❤️ Raaj ❤️',
-      message: 'Kidr hain',
-      image: imagePath.user9,
-      time: '2025-06-17T09:05:00',
-    },
-  ];
+const data = [
+  {
+    id: 1,
+    title: 'Anum ❤️',
+    message: 'Jaldi complete kro project anum',
+    image: imagePath.user1,
+    time: '2025-06-20T14:10:00',
+    unreadCount: 2,
+    isGroup: false,
+  },
+  {
+    id: 2,
+    title: '❤️ Hubby ❤️',
+    message: 'Hello testing',
+    image: imagePath.user2,
+    time: '2025-06-20T13:45:00',
+    unreadCount: 0,
+    isGroup: false,
+  },
+  {
+    id: 3,
+    title: 'Project Team 👨‍💻',
+    message: 'Meeting at 5 PM',
+    image: imagePath.user3,
+    time: '2025-06-20T12:30:00',
+    unreadCount: 5,
+    isGroup: true,
+  },
+  {
+    id: 4,
+    title: 'Family Group',
+    message: 'Dinner ready?',
+    image: imagePath.user4,
+    time: '2025-06-19T19:00:00',
+    unreadCount: 1,
+    isGroup: true,
+  },
+  {
+    id: 5,
+    title: 'Mama',
+    message: 'Aoa',
+    image: imagePath.user5,
+    time: '2025-06-18T17:35:00',
+    unreadCount: 0,
+    isGroup: false,
+  },
+  {
+    id: 6,
+    title: 'Friends 🎉',
+    message: 'Party tonight?',
+    image: imagePath.user6,
+    time: '2025-06-18T14:10:00',
+    unreadCount: 3,
+    isGroup: true,
+  },
+];
+
 
   return (
     <ViewWrapper>
@@ -83,16 +75,18 @@ const Chat = () => {
           data={data}
           renderItem={({item}) => (
             <LongCardBtn
-              title={item.title}
-              message={item.message}
-              image={item.image}
-              time={item.time}
-              onPress={() =>
-                navigation.navigate(navigationString.CHAT_MAIN, {
-                  title: item.title,
-                })
-              }
-            />
+  title={item.title}
+  message={item.message}
+  image={item.image}
+  time={item.time}
+  unreadCount={item.unreadCount}
+  isGroup={item.isGroup}
+  onPress={() =>
+    navigation.navigate(navigationString.CHAT_MAIN, {
+      title: item.title,
+    })
+  }
+/>
           )}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={{

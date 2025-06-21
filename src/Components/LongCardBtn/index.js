@@ -1,63 +1,36 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import ImageContainer from '../ImageContainer';
-import {moderateScale, verticalScale, scale} from 'react-native-size-matters';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { moderateScale, verticalScale } from 'react-native-size-matters';
 import colors from '../../style/colors';
 
-const LongCardBtn = ({
-  title,
-  message,
-  time,
-  rightItem = true,
-  onPress,
-  rightIcon = false,
-  image,
-  imageWidth = 35,
-  imageHeight = 35,
-  tintColor = null,
-  imageBorderWidth = null,
-}) => {
+const LongCardBtn = ({ title, message, image, time, onPress, unreadCount = 0, isGroup = false }) => {
   const formatTime = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   };
 
-  return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      onPress={onPress}
-      style={styles.container}>
-      <View style={styles.content}>
-        <Image
-          source={image}
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            marginRight: scale(12),
-            borderWidth: imageBorderWidth,
-            borderColor: colors.theme,
-          }}
-        />
-        <View style={styles.textContainer}>
+return (
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Image source={image} style={styles.image} />
+      <View style={styles.textContainer}>
+        <View style={styles.headerRow}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{message}</Text>
+            <Text style={styles.subtitle}>{formatTime(time)}</Text>
         </View>
+
+        <View>
+          <Text style={styles.message} numberOfLines={1}>
+            {message}
+          </Text>
+          {unreadCount > 0 && (
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{unreadCount}</Text>
+            </View>
+          )}
+        </View>
+
       </View>
-      <View style={styles.rightItemContainer}>
-        {rightIcon ? (
-          <TouchableOpacity>
-            <ImageContainer
-              image={image}
-              width={imageWidth}
-              height={imageHeight}
-              tintColor={tintColor}
-            />
-          </TouchableOpacity>
-        ) : rightItem && time ? (
-          <Text style={styles.subtitle}>{formatTime(time)}</Text>
-        ) : null}
-      </View>
+
     </TouchableOpacity>
   );
 };
@@ -65,17 +38,38 @@ const LongCardBtn = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: scale(8),
+    padding: moderateScale(10),
+
+
     alignItems: 'center',
+    position: 'relative',
+
+    marginHorizontal: moderateScale(10),
   },
-  content: {
+  image: {
+    width: moderateScale(50),
+    height: moderateScale(50),
+    borderRadius: 25,
+  },
+  textContainer: {
+    flex: 1,
+    marginLeft: moderateScale(12),
+  },
+  headerRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: scale(12),
+    justifyContent:'space-between',
+    gap: 8,
   },
-  textContainer: {},
-  rightItemContainer: {},
+  
+  groupTag: {
+    fontSize: 10,
+    backgroundColor: '#ddd',
+    color: '#555',
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 4,
+    marginLeft: 6,
+  },
   title: {
     fontSize: moderateScale(17),
     fontWeight: '500',
@@ -87,6 +81,26 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: verticalScale(28),
     color: colors.blackOpacity50,
+  },
+
+  message: {
+    fontSize: 14,
+    color: '#555',
+    marginTop: 4,
+    width:150,
+  },
+  badge: {
+    backgroundColor: colors.theme,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
+    position: 'absolute',
+    right: 10,
+    top: 6,
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 10,
   },
 });
 

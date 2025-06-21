@@ -17,7 +17,8 @@ import colors from '../style/colors';
 import iconsPath from '../constants/iconsPath';
 import CustomDropdownComp from '../Components/CustomDropdownComp';
 import CommunityScreen from '../pages/CommunityScreen';
-import TopTabs from '../Components/ChatHeaderComp/HeaderComp/TopTabs';
+
+import ChatTopTabs from '../Components/ChatHeaderComp/ChatTopTabs';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,13 +39,19 @@ const TabNavigator = () => {
         />
     );
 
-    const CustomHeader = () => (
+    const CustomHeader = ({ currentRoute }) => (
         <View >
             <View style={styles.headerContainer}>
-               <Text style={styles.title}>WhatsApp</Text>
+                <Text style={styles.title}>WhatsApp</Text>
                 <View style={styles.iconContainer}>
-                    <Image source={iconsPath.cameraIcon} style={styles.icon} />
-                      <Image source={iconsPath.searchIcon} style={styles.icon} />
+
+                    {(currentRoute === navigationString.CHAT_SCREEN &&
+                        <Image source={iconsPath.cameraIcon} style={styles.icon} />
+                    )}
+                    {(currentRoute === navigationString.STATUS_SCREEN ||
+                        currentRoute === navigationString.CALL_SCREEN) && (
+                            <Image source={iconsPath.searchIcon} style={styles.icon} />
+                        )}
                     <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
                         <Image source={iconsPath.menuIcon} style={styles.icon} />
                     </TouchableOpacity>
@@ -57,6 +64,7 @@ const TabNavigator = () => {
                     alignItems: 'center',
                     width: '100%',
                     // paddingVertical: 20,
+                    backgroundColor: 'white',
                     position: 'relative',
                 }}>
                 <Image source={iconsPath.searchIcon} style={styles.searchicon} />
@@ -83,11 +91,12 @@ const TabNavigator = () => {
 
     return (
         <View style={styles.container}>
-            <CustomHeader />
-          
+
+
             <Tab.Navigator
                 screenOptions={({ route }) => ({
-                    headerShown: false,
+                    header: () => <CustomHeader currentRoute={route.name} />,
+                    headerShown: true,
                     tabBarIcon: ({ focused }) => {
                         let icon;
 
@@ -122,8 +131,8 @@ const TabNavigator = () => {
                     },
                 })}
             >
-
-                <Tab.Screen name={navigationString.CHAT_SCREEN} component={Chat} />
+                
+               <Tab.Screen name={navigationString.CHAT_SCREEN} component={ChatTopTabs} />
                 <Tab.Screen name={navigationString.STATUS_SCREEN} component={Status} />
                 <Tab.Screen name={navigationString.COMMUNITY_SCREEN} component={CommunityScreen} />
                 <Tab.Screen name={navigationString.CALL_SCREEN} component={Calls} />
@@ -170,6 +179,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 1,
         left: 25,
-        color:'#909090'
+        color: '#909090'
     }
 });

@@ -1,5 +1,6 @@
 export default {
-   theme: '#25d366',   //  #25d366
+   theme: '#1ea461',   //  #25d366
+   lightTheme:'#d8fdd2',
   themekOpacity10: 'rgba(0,168,132,0.1)',
   themekOpacity12: 'rgba(0,168,132,0.12)',
   themekOpacity15: 'rgba(0,168,132,0.15)',

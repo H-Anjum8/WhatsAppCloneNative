@@ -6,5 +6,6 @@ export default {
   CHAT_MAIN: 'ChatMain',
   Bottom_NAVIGATOR:'bottom-nav',
   TABS_NAVIGATOR:'tabs-nav',
-  COMMUNITY_SCREEN:'community-screen'
+  COMMUNITY_SCREEN:'community-screen',
+  TOP_TAB:'top-tab'
 };
