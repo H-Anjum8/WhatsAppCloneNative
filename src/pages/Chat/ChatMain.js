@@ -1,35 +1,48 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import React from 'react';
 import ViewWrapper from '../../Components/ViewWrapper.js';
 import ChatHeaderComp from '../../Components/ChatHeaderComp/index.js';
 import ChatMessageComp from '../../Components/ChatMessageComp/index.js';
 import colors from '../../style/colors.js';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
-const ChatMain = ({route}) => {
-  const {title} = route.params;
+const ChatMain = ({ navigation, route }) => {
+  const { title, message } = route.params;
+
   return (
     <ViewWrapper>
       <View style={styles.container}>
         <ChatHeaderComp title={title} />
-        <View style={styles.messageContainer}>
-          <MessageBox Msgfrom={true} message="Hello" />
-          <MessageBox Msgfrom={false} message="Hi" />
-          <MessageBox Msgfrom={true} message="You Like this video ?" />
-          <MessageBox Msgfrom={false} message="Its very helpful" />
-        </View>
+
+        <ScrollView
+          contentContainerStyle={styles.messageContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {message?.map((msg, index) => (
+            <MessageBox
+              key={index}
+              Msgfrom={index % 2 === 0} // Alternate direction
+              message={msg?.text}
+              time={msg?.time}
+            />
+          ))}
+
+          {/* Spacer at the bottom to avoid overlap with input */}
+          <View style={{ height: verticalScale(20) }} />
+        </ScrollView>
+
         <ChatMessageComp />
       </View>
     </ViewWrapper>
   );
 };
 
-const MessageBox = ({Msgfrom, message, time = '11:12'}) => {
-  console.log(Msgfrom);
+const MessageBox = ({ Msgfrom, message, time }) => {
   const alignItems = Msgfrom ? 'flex-end' : 'flex-start';
+
   const messageBoxStyle = Msgfrom
     ? {
-        backgroundColor: colors.themekOpacity40,
+        backgroundColor: colors.lightTheme,
         borderTopLeftRadius: moderateScale(10),
         borderBottomLeftRadius: moderateScale(10),
         borderBottomRightRadius: moderateScale(15),
@@ -39,29 +52,14 @@ const MessageBox = ({Msgfrom, message, time = '11:12'}) => {
         borderTopRightRadius: moderateScale(10),
         borderBottomLeftRadius: moderateScale(15),
         borderBottomRightRadius: moderateScale(10),
-        elevation: 3,
       };
 
-  console.log(messageBoxStyle);
-
   return (
-    <View
-      style={{
-        alignItems: alignItems,
-        paddingVertical: verticalScale(12),
-        paddingHorizontal: scale(5),
-      }}>
-      <TouchableOpacity style={{...styles.messageBox, ...messageBoxStyle}}>
+    <View style={{ alignItems, paddingHorizontal: scale(10), marginVertical: verticalScale(6) }}>
+      <View style={[styles.messageBox, messageBoxStyle]}>
         <Text style={styles.messageText}>{message}</Text>
-        <Text
-          style={{
-            ...styles.messageText,
-            fontSize: moderateScale(10),
-            alignItems: 'flex-end',
-          }}>
-          {time}
-        </Text>
-      </TouchableOpacity>
+        <Text style={styles.timeText}>{time}</Text>
+      </View>
     </View>
   );
 };
@@ -72,22 +70,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   messageContainer: {
-    flex: 1,
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(10),
   },
   messageBox: {
-    paddingHorizontal: scale(7),
+    maxWidth: '75%',
+    paddingVertical: verticalScale(8),
+    paddingHorizontal: scale(12),
     borderWidth: 0.5,
     borderColor: colors.blackOpacity25,
-    maxWidth: '70%',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    elevation: 1,
   },
   messageText: {
-    fontSize: moderateScale(15),
+    fontSize: moderateScale(14),
     color: colors.black,
-    fontWeight: '600',
-    lineHeight: verticalScale(28),
-    paddingHorizontal: scale(7),
+    fontWeight: '500',
+    lineHeight: verticalScale(20),
+  },
+  timeText: {
+    fontSize: moderateScale(10),
+    color: colors.blackOpacity50,
+    marginTop: verticalScale(4),
+    textAlign: 'right',
   },
 });
+
 export default ChatMain;

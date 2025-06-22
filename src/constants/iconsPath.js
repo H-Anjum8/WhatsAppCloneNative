@@ -12,4 +12,7 @@ export default {
   linkIcon: require('../assets/icons/link.png'),
   micIcon: require('../assets/icons/mic.png'),
   heartIcon:require('../assets/icons/heartIcon.png'),
+  chat:require('../assets/icons/chat.jpeg'),
+  community:require('../assets/icons/community.jpeg'),
+  status:require('../assets/icons/status.jpeg'),
 };

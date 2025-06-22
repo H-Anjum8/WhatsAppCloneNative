@@ -15,7 +15,7 @@ const MainStack = Stack => {
         component={TabNavigator}
       />
        
-      {/* <Stack.Screen name={navigationString.CHAT_MAIN} component={ChatMain} /> */}
+      <Stack.Screen name={navigationString.CHAT_MAIN} component={ChatMain} />
     </>
   );
 };

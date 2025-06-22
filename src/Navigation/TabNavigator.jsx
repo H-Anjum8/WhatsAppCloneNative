@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
     const [isVisible, setIsVisible] = useState(false);
-
+    const [searchText, setSearchText] = useState('');
     StatusBar.setBackgroundColor(colors.theme);
     StatusBar.setBarStyle('light-content');
 
@@ -32,9 +32,10 @@ const TabNavigator = () => {
         <Image
             source={icon}
             style={{
-                width: scale(22),
+                width: scale(28),
                 height: verticalScale(22),
-                tintColor: focused ? colors.theme : colors.gray,
+
+                tintColor: focused ? colors.red : colors.gray,
             }}
         />
     );
@@ -58,33 +59,36 @@ const TabNavigator = () => {
                     <CustomDropdownComp isVisible={isVisible} setIsVisible={setIsVisible} />
                 </View>
             </View>
-            <View
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    // paddingVertical: 20,
-                    backgroundColor: 'white',
-                    position: 'relative',
-                }}>
-                <Image source={iconsPath.searchIcon} style={styles.searchicon} />
-
-                <TextInput
-                    placeholder="Ask Meta AI or Search"
-                    placeholderTextColor="#909090"
+            {(currentRoute === navigationString.CHAT_SCREEN &&
+                <View
                     style={{
-                        width: '94%',
-                        backgroundColor: '#EBEBEB',
-                        borderRadius: 40,
-                        alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: 15,
-                        padding: 7,
-                        paddingLeft: 55,
-                    }}
-                />
-            </View>
+                        alignItems: 'center',
+                        width: '100%',
+                        // paddingVertical: 20,
+                        backgroundColor: 'white',
+                        position: 'relative',
+                    }}>
+                    <Image source={iconsPath.searchIcon} style={styles.searchicon} />
 
+                    <TextInput
+                        placeholder="Ask Meta AI or Search"
+                        placeholderTextColor="#909090"
+                        value={searchText}
+                        onChangeText={(text) => setSearchText(text)}
+                        style={{
+                            width: '94%',
+                            backgroundColor: '#EBEBEB',
+                            borderRadius: 40,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 15,
+                            padding: 7,
+                            paddingLeft: 55,
+                        }}
+                    />
+                </View>
+            )}
         </View>
 
     );
@@ -102,13 +106,16 @@ const TabNavigator = () => {
 
                         switch (route.name) {
                             case navigationString.CHAT_SCREEN:
-                                icon = iconsPath.chatIcon;
+                                icon = iconsPath.chat;
                                 break;
                             case navigationString.STATUS_SCREEN:
-                                icon = iconsPath.statusIcon;
+                                icon = iconsPath.status;
                                 break;
                             case navigationString.CALL_SCREEN:
                                 icon = iconsPath.callIcon;
+                                break;
+                            case navigationString.COMMUNITY_SCREEN:
+                                icon = iconsPath.community;
                                 break;
                         }
 
@@ -131,8 +138,8 @@ const TabNavigator = () => {
                     },
                 })}
             >
-                
-               <Tab.Screen name={navigationString.CHAT_SCREEN} component={ChatTopTabs} />
+
+                <Tab.Screen name={navigationString.CHAT_SCREEN} children={() => <ChatTopTabs searchText={searchText}  />}/>
                 <Tab.Screen name={navigationString.STATUS_SCREEN} component={Status} />
                 <Tab.Screen name={navigationString.COMMUNITY_SCREEN} component={CommunityScreen} />
                 <Tab.Screen name={navigationString.CALL_SCREEN} component={Calls} />
@@ -142,7 +149,6 @@ const TabNavigator = () => {
 };
 
 export default TabNavigator;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -180,5 +186,6 @@ const styles = StyleSheet.create({
         zIndex: 1,
         left: 25,
         color: '#909090'
-    }
+    },
+
 });
