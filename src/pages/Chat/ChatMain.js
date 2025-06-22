@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ViewWrapper from '../../Components/ViewWrapper.js';
 import ChatHeaderComp from '../../Components/ChatHeaderComp/index.js';
 import ChatMessageComp from '../../Components/ChatMessageComp/index.js';
@@ -7,18 +7,31 @@ import colors from '../../style/colors.js';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 const ChatMain = ({ navigation, route }) => {
-  const { title, message } = route.params;
+  const { title, message = [], image } = route.params;
+  const [messages, setMessages] = useState(message);
+  const scrollRef = useRef(null);
+
+  const handleSendMessage = (newMsg) => {
+    setMessages(prev => [...prev, newMsg]);
+  };
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollToEnd({ animated: true });
+    }
+  }, [messages]);
 
   return (
     <ViewWrapper>
       <View style={styles.container}>
-        <ChatHeaderComp title={title} />
+        <ChatHeaderComp title={title} image={image} />
 
         <ScrollView
+          ref={scrollRef}
           contentContainerStyle={styles.messageContainer}
           showsVerticalScrollIndicator={false}
         >
-          {message?.map((msg, index) => (
+          {messages.map((msg, index) => (
             <MessageBox
               key={index}
               Msgfrom={index % 2 === 0} // Alternate direction
@@ -26,12 +39,10 @@ const ChatMain = ({ navigation, route }) => {
               time={msg?.time}
             />
           ))}
-
-          {/* Spacer at the bottom to avoid overlap with input */}
           <View style={{ height: verticalScale(20) }} />
         </ScrollView>
 
-        <ChatMessageComp />
+        <ChatMessageComp onSendMessage={handleSendMessage} />
       </View>
     </ViewWrapper>
   );

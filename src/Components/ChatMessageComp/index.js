@@ -1,11 +1,28 @@
+// ChatMessageComp.js
 import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import ImageContainer from '../ImageContainer';
 import iconsPath from '../../constants/iconsPath';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import colors from '../../style/colors';
 
-const ChatMessageComp = () => {
+const ChatMessageComp = ({ onSendMessage }) => {
+  const [message, setMessage] = useState('');
+
+  const handleSend = () => {
+    if (message.trim()) {
+      const currentTime = new Date();
+      const formattedTime = `${currentTime.getHours()}:${String(
+        currentTime.getMinutes(),
+      ).padStart(2, '0')}`;
+      onSendMessage({
+        text: message,
+        time: formattedTime,
+      });
+      setMessage('');
+    }
+  };
+
   return (
     <View style={styles.wrapperContainer}>
       <View style={styles.container}>
@@ -15,7 +32,14 @@ const ChatMessageComp = () => {
           height={25}
           tintColor={colors.blackOpacity50}
         />
-        <TextInput placeholder="Message" style={styles.inputField} />
+        <TextInput
+          placeholder="Message"
+          style={styles.inputField}
+          value={message}
+          onChangeText={setMessage}
+          onSubmitEditing={handleSend}
+          returnKeyType="send"
+        />
         <ImageContainer
           image={iconsPath.linkIcon}
           width={25}
@@ -29,9 +53,8 @@ const ChatMessageComp = () => {
           tintColor={colors.blackOpacity50}
         />
       </View>
-      <TouchableOpacity style={styles.imageButton}>
+      <TouchableOpacity style={styles.imageButton} onPress={handleSend}>
         <ImageContainer
-         
           image={iconsPath.micIcon}
           width={25}
           height={25}
@@ -41,6 +64,7 @@ const ChatMessageComp = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   wrapperContainer: {
     paddingHorizontal: scale(7),
@@ -75,4 +99,5 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(32),
   },
 });
+
 export default ChatMessageComp;

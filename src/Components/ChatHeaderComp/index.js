@@ -3,11 +3,11 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import colors from '../../style/colors';
 import ImageContainer from '../ImageContainer';
 import iconsPath from '../../constants/iconsPath';
-import imagePath from '../../constants/imagePath';
+
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 
-const ChatHeaderComp = ({title}) => {
+const ChatHeaderComp = ({title,image}) => {
   const navigation = useNavigation();
   const truncatedTitle =
     title.length > 19 ? `${title.substring(0, 19)}...` : title;
@@ -24,10 +24,11 @@ const ChatHeaderComp = ({title}) => {
             tintColor={colors.white}
           />
           <ImageContainer
-            image={imagePath.user}
+          style={styles.img}
+            image={image}
             width={40}
             height={40}
-            tintColor={colors.white}
+        
           />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -77,6 +78,9 @@ const styles = StyleSheet.create({
     paddingRight: scale(7),
     gap: scale(12),
   },
+  img:{
+    borderRadius:50,
+  }
 });
 
 export default ChatHeaderComp;

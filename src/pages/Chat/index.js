@@ -111,6 +111,7 @@ const Chat = ({ filter = 'all' , searchText = '' }) => {
                 navigation.navigate(navigationString.CHAT_MAIN, {
                   title: item.title,
                   message: item.message,
+                  image:item.image
                 })
               }
             />
