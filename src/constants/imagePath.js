@@ -1,4 +1,5 @@
 export default {
+  communityimg: require('../assets/images/communityimg.png'),
   user: require('../assets/images/user.png'),
   user1: require('../assets/images/user1.jpeg'),
   user2: require('../assets/images/user2.jpg'),
@@ -9,4 +10,8 @@ export default {
   user7: require('../assets/images/user7.jpeg'), 
   user8: require('../assets/images/user8.jpeg'), 
   user9: require('../assets/images/user9.jpeg'), 
+  geo: require('../assets/images/geo.jpg'), 
+  sun: require('../assets/images/sun.png'), 
+  cartoon: require('../assets/images/cartoon.png'), 
+  whatsup: require('../assets/images/whatsup.png'), 
 };
