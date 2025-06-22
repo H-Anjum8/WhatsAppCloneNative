@@ -15,4 +15,5 @@ export default {
   chat:require('../assets/icons/chat.jpeg'),
   community:require('../assets/icons/community.jpeg'),
   status:require('../assets/icons/status.jpeg'),
+  send:require('../assets/icons/send.png'),
 };

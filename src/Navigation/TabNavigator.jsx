@@ -43,7 +43,18 @@ const TabNavigator = () => {
     const CustomHeader = ({ currentRoute }) => (
         <View >
             <View style={styles.headerContainer}>
-                <Text style={styles.title}>WhatsApp</Text>
+                {(currentRoute === navigationString.CHAT_SCREEN &&
+                    <Text style={styles.title}>WhatsApp</Text>
+                )}
+                {(currentRoute === navigationString.STATUS_SCREEN &&
+                    <Text style={styles.title1}>Updates</Text>
+                )}
+                 {(currentRoute === navigationString.COMMUNITY_SCREEN &&
+                    <Text style={styles.title1}>Communities</Text>
+                )}
+                 {(currentRoute === navigationString.CALL_SCREEN &&
+                    <Text style={styles.title1}>Calls</Text>
+                )}
                 <View style={styles.iconContainer}>
 
                     {(currentRoute === navigationString.CHAT_SCREEN &&
@@ -139,7 +150,7 @@ const TabNavigator = () => {
                 })}
             >
 
-                <Tab.Screen name={navigationString.CHAT_SCREEN} children={() => <ChatTopTabs searchText={searchText}  />}/>
+                <Tab.Screen name={navigationString.CHAT_SCREEN} children={() => <ChatTopTabs searchText={searchText} />} />
                 <Tab.Screen name={navigationString.STATUS_SCREEN} component={Status} />
                 <Tab.Screen name={navigationString.COMMUNITY_SCREEN} component={CommunityScreen} />
                 <Tab.Screen name={navigationString.CALL_SCREEN} component={Calls} />
@@ -165,6 +176,13 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(21),
         fontWeight: '600',
         color: colors.theme,
+
+    },
+    title1: {
+        fontSize: moderateScale(21),
+        fontWeight: '400',
+        color: 'black',
+
     },
     iconContainer: {
         flexDirection: 'row',
