@@ -7,5 +7,6 @@ export default {
   Bottom_NAVIGATOR:'bottom-nav',
   TABS_NAVIGATOR:'tabs-nav',
   COMMUNITY_SCREEN:'community-screen',
-  TOP_TAB:'top-tab'
+  TOP_TAB:'top-tab',
+  // AUDIO_CALLSCREEN:'audio-call'
 };

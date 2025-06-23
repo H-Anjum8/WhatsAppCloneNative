@@ -15,11 +15,13 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import ImageContainer from '../ImageContainer';
 import iconsPath from '../../constants/iconsPath';
 import colors from '../../style/colors';
+import AttachmentModal from './AttachmentModal';
 
 const ChatMessageComp = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
 
   const audioRecorderPlayer = useRef(new AudioRecorderPlayer()).current;
 
@@ -106,14 +108,15 @@ const ChatMessageComp = ({ onSendMessage }) => {
             onSubmitEditing={handleSend}
             returnKeyType="send"
           />
-
-          <ImageContainer image={iconsPath.linkIcon} width={25} height={25} tintColor={colors.blackOpacity50} />
+          <TouchableOpacity onPress={() => setShowAttachmentModal(true)}>
+            <ImageContainer image={iconsPath.linkIcon} width={25} height={25} tintColor={colors.blackOpacity50} />
+          </TouchableOpacity>
           <ImageContainer image={iconsPath.cameraIcon} width={25} height={25} tintColor={colors.blackOpacity50} />
         </View>
 
         {message.trim().length > 0 ? (
           <TouchableOpacity style={styles.imageButton} onPress={handleSend}>
-            <ImageContainer image={iconsPath.send} width={25} height={25}  tintColor={colors.white} />
+            <ImageContainer image={iconsPath.send} width={25} height={25} tintColor={colors.white} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
@@ -129,7 +132,10 @@ const ChatMessageComp = ({ onSendMessage }) => {
           </TouchableOpacity>
         )}
       </View>
-
+      <AttachmentModal
+        visible={showAttachmentModal}
+        onClose={() => setShowAttachmentModal(false)}
+      />
       {showEmojiPicker && (
         <EmojiSelector
           onEmojiSelected={handleEmojiSelect}

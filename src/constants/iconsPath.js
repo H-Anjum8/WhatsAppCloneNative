@@ -16,4 +16,10 @@ export default {
   community:require('../assets/icons/community.jpeg'),
   status:require('../assets/icons/status.jpeg'),
   send:require('../assets/icons/send.png'),
+  
+   gallery: require('../assets/icons/gallery.png'),
+  camera: require('../assets/icons/camera.png'),
+  location: require('../assets/icons/location.png'),
+  contact: require('../assets/icons/contact.png'),
+  document: require('../assets/icons/document.png'),
 };
