@@ -72,14 +72,14 @@ const Calls = () => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: scale(17),
+        paddingHorizontal: scale(20),
         paddingVertical: verticalScale(12),
       }}>
       <Image
         source={item.image}
         style={{
-          width: 45,
-          height: 45,
+          width: 47,
+          height: 47,
           borderRadius: 100,
           marginRight: scale(12),
         }}
@@ -88,7 +88,7 @@ const Calls = () => {
         <Text
           style={{
             color: item.callDirection === 'incoming' ? 'red' : colors.black,
-            fontSize: 15,
+            fontSize: 17,
             fontWeight: '450',
           }}>
           {item.title}
@@ -110,7 +110,7 @@ const Calls = () => {
             }}
             resizeMode="contain"
           />
-          <Text style={{color: colors.gray, fontSize: 14}}>
+          <Text style={{color: colors.gray, fontSize: 14,fontWeight: '400',}}>
             {item.message}
           </Text>
         </View>
@@ -137,13 +137,13 @@ const Calls = () => {
               color: colors.black,
               fontWeight: '500',
               paddingHorizontal: scale(17),
-              marginTop: scale(12),
+              marginTop: scale(8),
             }}>
-            Favorite
+            Favorites
           </Text>
         </View>
 
-        <View style={{paddingVertical: verticalScale(12)}}>
+        <View style={{paddingVertical: verticalScale(4)}}>
           <TouchableOpacity
             style={{
               flexDirection: 'row',
@@ -163,7 +163,7 @@ const Calls = () => {
               }}>
               <Image
                 source={iconsPath.heartIcon}
-                style={{width: 20, height: 20, tintColor: 'white'}}
+                style={{width: 20, height: 20, }}
                 resizeMode="contain"
               />
             </View>
@@ -178,6 +178,7 @@ const Calls = () => {
             style={{
               paddingTop: verticalScale(12),
               paddingHorizontal: scale(17),
+              
             }}>
             <HeadingText text="Recent" color={colors.black} />
           </View>

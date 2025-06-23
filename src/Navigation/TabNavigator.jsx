@@ -124,7 +124,6 @@ const TabNavigator = () => {
     return (
         <View style={styles.container}>
 
-
             <Tab.Navigator
                 screenOptions={({ route }) => ({
                     header: () => <CustomHeader currentRoute={route.name} />,
@@ -146,6 +145,7 @@ const TabNavigator = () => {
                                 icon = iconsPath.community;
                                 break;
                         }
+
 
                         return renderTabIcon(icon, focused);
                     },
