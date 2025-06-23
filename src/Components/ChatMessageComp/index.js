@@ -16,6 +16,7 @@ import ImageContainer from '../ImageContainer';
 import iconsPath from '../../constants/iconsPath';
 import colors from '../../style/colors';
 import AttachmentModal from './AttachmentModal';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const ChatMessageComp = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
@@ -34,7 +35,36 @@ const ChatMessageComp = ({ onSendMessage }) => {
     }
     return true;
   };
+  const pickGallery = () => {
+    launchImageLibrary({ mediaType: 'photo' }, (response) => {
+      if (!response.didCancel && !response.errorCode) {
+        const imageUri = response.assets?.[0]?.uri;
+        if (imageUri) {
+          onSendMessage({
+            type: 'image',
+            uri: imageUri,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          });
+        }
+      }
+    });
+  };
 
+  // Handler for Camera
+  const pickCamera = () => {
+    launchCamera({ mediaType: 'photo' }, (response) => {
+      if (!response.didCancel && !response.errorCode) {
+        const imageUri = response.assets?.[0]?.uri;
+        if (imageUri) {
+          onSendMessage({
+            type: 'image',
+            uri: imageUri,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          });
+        }
+      }
+    });
+  };
   const getAudioPath = () => {
     const filename = `voice_${Date.now()}.mp3`;
     return Platform.select({
@@ -111,7 +141,9 @@ const ChatMessageComp = ({ onSendMessage }) => {
           <TouchableOpacity onPress={() => setShowAttachmentModal(true)}>
             <ImageContainer image={iconsPath.linkIcon} width={25} height={25} tintColor={colors.blackOpacity50} />
           </TouchableOpacity>
-          <ImageContainer image={iconsPath.cameraIcon} width={25} height={25} tintColor={colors.blackOpacity50} />
+          <TouchableOpacity onPress={pickCamera}>
+            <ImageContainer image={iconsPath.cameraIcon} width={25} height={25} tintColor={colors.blackOpacity50} />
+          </TouchableOpacity>
         </View>
 
         {message.trim().length > 0 ? (
@@ -135,6 +167,8 @@ const ChatMessageComp = ({ onSendMessage }) => {
       <AttachmentModal
         visible={showAttachmentModal}
         onClose={() => setShowAttachmentModal(false)}
+        onPickGallery={pickGallery}
+        onPickCamera={pickCamera}
       />
       {showEmojiPicker && (
         <EmojiSelector

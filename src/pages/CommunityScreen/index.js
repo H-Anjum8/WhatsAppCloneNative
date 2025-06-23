@@ -1,63 +1,83 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import CommunityImg from '../../assets/icons/community-img.png';
-import colors from '../../style/colors';
-
+import {useNavigation} from '@react-navigation/native';
+import CommunityImg from '../../assets/images/communityimg2.jpg';
+import navigationString from '../../constants/navigationString';
 
 const CommunityScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      <Image style={styles.communityImg} source={CommunityImg} />
-      <Text style={styles.community}>Introducing communities</Text>
+      <Image style={styles.image} source={CommunityImg} />
+
+      <Text style={styles.heading}>Stay connected with a community</Text>
+
       <Text style={styles.subText}>
-        Easily organize your related groups and send announcements. Now, your
-        communities, like neighbourhood or schools, can have their own space.
+        Communities bring members together in topic-based groups, and make it easy to get admin announcements. Any community you’re added to will appear here.
       </Text>
-      <TouchableOpacity style={styles.buttonStyle}>
-        <Text style={styles.buttonTitle}>Start Your Community</Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate(navigationString.CREATE_COMMUNITY)}>
+        <Text style={styles.buttonText}>Start your community</Text>
       </TouchableOpacity>
+
+      <Text style={styles.bottomNote}>
+        Tap ➕ on the Chats tab to create a new community.
+      </Text>
     </View>
   );
 };
 
+export default CommunityScreen;
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
     flex: 1,
+    backgroundColor: 'white',  // ✅ pure white background
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center',  // ✅ vertically center everything
+    paddingHorizontal: 25,
   },
-  communityImg: {
-    height: 150,
-    width: 250,
+  image: {
+    width: 220,
+    height: 220,
+    resizeMode: 'contain',
+    marginBottom: 20,  // ✅ reduced spacing
   },
-  community: {
-    fontSize: 26,
-    color: colors.white,
-    fontWeight: '500',
-    marginTop: 40,
+  heading: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#111',
+    textAlign: 'center',
+    marginBottom: 14,  // ✅ reduced spacing
   },
   subText: {
-    color: colors.textGrey,
-    fontSize: 16,
+    color: '#666',
+    fontSize: 15,
     textAlign: 'center',
-    paddingHorizontal: 30,
-    marginTop: 5,
     lineHeight: 22,
-    letterSpacing: 0.6,
+    paddingHorizontal: 10,
   },
-  buttonStyle: {
-    backgroundColor: colors.tertiary,
-    marginTop: 30,
-    padding: 8,
+  button: {
+    backgroundColor: '#03C03C',
+    marginTop: 24,  // ✅ slightly reduced margin
     borderRadius: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 25,
     width: '80%',
   },
-  buttonTitle: {
+  buttonText: {
     textAlign: 'center',
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  bottomNote: {
+    marginTop: 24,  // ✅ slightly reduced margin
     fontSize: 14,
-    color: colors.background,
+    color: '#666',
+    textAlign: 'center',
   },
 });
-
-export default CommunityScreen; 

@@ -19,6 +19,7 @@ import CustomDropdownComp from '../Components/CustomDropdownComp';
 import CommunityScreen from '../pages/CommunityScreen';
 
 import ChatTopTabs from '../Components/ChatHeaderComp/ChatTopTabs';
+import { launchCamera } from 'react-native-image-picker';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +41,20 @@ const TabNavigator = () => {
         />
     );
 
+    const pickCamera = () => {
+        launchCamera({ mediaType: 'photo' }, (response) => {
+            if (!response.didCancel && !response.errorCode) {
+                const imageUri = response.assets?.[0]?.uri;
+                if (imageUri) {
+                    onSendMessage({
+                        type: 'image',
+                        uri: imageUri,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    });
+                }
+            }
+        });
+    };
     const CustomHeader = ({ currentRoute }) => (
         <View >
             <View style={styles.headerContainer}>
@@ -49,16 +64,18 @@ const TabNavigator = () => {
                 {(currentRoute === navigationString.STATUS_SCREEN &&
                     <Text style={styles.title1}>Updates</Text>
                 )}
-                 {(currentRoute === navigationString.COMMUNITY_SCREEN &&
+                {(currentRoute === navigationString.COMMUNITY_SCREEN &&
                     <Text style={styles.title1}>Communities</Text>
                 )}
-                 {(currentRoute === navigationString.CALL_SCREEN &&
+                {(currentRoute === navigationString.CALL_SCREEN &&
                     <Text style={styles.title1}>Calls</Text>
                 )}
                 <View style={styles.iconContainer}>
 
                     {(currentRoute === navigationString.CHAT_SCREEN &&
-                        <Image source={iconsPath.cameraIcon} style={styles.icon} />
+                        <TouchableOpacity onPress={pickCamera}>
+                            <Image source={iconsPath.cameraIcon} style={styles.icon} />
+                        </TouchableOpacity>
                     )}
                     {(currentRoute === navigationString.STATUS_SCREEN ||
                         currentRoute === navigationString.CALL_SCREEN) && (

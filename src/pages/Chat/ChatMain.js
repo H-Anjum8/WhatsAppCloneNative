@@ -34,7 +34,7 @@ const ChatMain = ({  route }) => {
     }
   }, [messages]);
   const handleAudioCallPress = () => {
-  navigation.navigate('audio-call', { title, image });
+  navigation.navigate('Audio-call', { title, image });
 };
 
   return (
