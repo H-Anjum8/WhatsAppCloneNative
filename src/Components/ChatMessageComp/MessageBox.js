@@ -7,6 +7,7 @@ import {
     scale,
     verticalScale,
 } from 'react-native-size-matters';
+import { Linking } from 'react-native';
 import colors from '../../style/colors';
 
 const MessageBox = ({ Msgfrom, message }) => {
@@ -70,34 +71,42 @@ const MessageBox = ({ Msgfrom, message }) => {
                 marginVertical: verticalScale(6),
             }}
         >
-            <View style={[styles.messageBox, messageBoxStyle]}>
-                {message.type === 'audio' ? (
-                    <TouchableOpacity
-                        style={styles.progressBarContainer}
-                        onPress={playOrPause}
-                    >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                            <Text style={styles.playIcon}>
-                                {isPlaying ? '⏸' : '▶️'}
-                            </Text>
-                            <View style={styles.progressTrack}>
-                                <View style={[styles.progressBar, { width: `${progress}%` }]} />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                ) : message.type === 'image' ? (
-                    <View>
-                        <Image
-                            source={{ uri: message.uri }}
-                            style={{ width: 160, height: 160, borderRadius: 10 }}
-                            resizeMode="cover"
-                        />
-                    </View>
-                ) : (
-                    <Text style={styles.messageText}>{message.text}</Text>
-                )}
-                <Text style={styles.timeText}>{message.time}</Text>
-            </View>
+           <View style={[styles.messageBox, messageBoxStyle]}>
+  {message.type === 'audio' ? (
+    <TouchableOpacity
+      style={styles.progressBarContainer}
+      onPress={playOrPause}
+    >
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <Text style={styles.playIcon}>
+          {isPlaying ? '⏸' : '▶️'}
+        </Text>
+        <View style={styles.progressTrack}>
+          <View style={[styles.progressBar, { width: `${progress}%` }]} />
+        </View>
+      </View>
+    </TouchableOpacity>
+  ) : message.type === 'image' ? (
+    <Image
+      source={{ uri: message.uri }}
+      style={{ width: 160, height: 160, borderRadius: 10 }}
+      resizeMode="cover"
+    />
+  ) : message.type === 'contact' ? (
+    <View>
+      <Text style={{ fontWeight: 'bold' }}>{message.text}</Text>
+      <Text style={{ color: 'gray' }}>{message.phone}</Text>
+    </View>
+  ) : message.type === 'document' ? (
+    <TouchableOpacity onPress={() => Linking.openURL(message.uri)}>
+      <Text style={{ fontWeight: 'bold', color: 'blue' }}>{message.text}</Text>
+    </TouchableOpacity>
+  ) : (
+    <Text style={styles.messageText}>{message.text}</Text>
+  )}
+  <Text style={styles.timeText}>{message.time}</Text>
+</View>
+
         </View>
     );
 };

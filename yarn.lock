@@ -5846,6 +5846,18 @@ react-native-audio-recorder-player@^3.6.13:
   dependencies:
     hyochan-welcome "^1.0.0"
 
+react-native-contacts@^8.0.5:
+  version "8.0.5"
+  resolved "https://registry.npmjs.org/react-native-contacts/-/react-native-contacts-8.0.5.tgz"
+  integrity sha512-MhZOAa2IZyJTqtaa7xo1twU2A1ygt4eD2IF+0Hl9P+HhnvxlFCwQBzCmZvpOwaSpW6QSLyHzM5BWKxWyMcSxog==
+
+react-native-document-picker@^8.2.1:
+  version "8.2.2"
+  resolved "https://registry.npmjs.org/react-native-document-picker/-/react-native-document-picker-8.2.2.tgz"
+  integrity sha512-5xYoueCDaeU+eZLJM4AxGPedublk4w3YzpdoQR9ayd4E5AdLt1uY1ruK8HoZ/+G4v97o2cFlxfYcuw9QWVMUDA==
+  dependencies:
+    invariant "^2.2.4"
+
 react-native-emoji-selector@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/react-native-emoji-selector/-/react-native-emoji-selector-0.2.0.tgz"

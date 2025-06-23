@@ -16,13 +16,14 @@ const options = [
  
 ];
 
-const AttachmentModal = ({ visible, onClose, onPickGallery, onPickCamera }) => {
-  const handlePress = (label) => {
+const AttachmentModal = ({ visible, onClose,onPickGallery, onPickCamera, onPickContact, onPickDocument  }) => {
+   const handlePress = (label) => {
     if (label === 'Gallery') onPickGallery?.();
-    if (label === 'Camera') onPickCamera?.();
-    onClose(); // close modal after action
+    else if (label === 'Camera') onPickCamera?.();
+    else if (label === 'Contact') onPickContact?.();
+    else if (label === 'Document') onPickDocument?.();
+    onClose();
   };
-
   return (
     <Modal transparent visible={visible} animationType="fade">
       <TouchableOpacity style={styles.backdrop} onPress={onClose} activeOpacity={1}>

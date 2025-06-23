@@ -8,6 +8,7 @@ import {
   PermissionsAndroid,
   StyleSheet,
 } from 'react-native';
+import Contacts from 'react-native-contacts';
 import RNFS from 'react-native-fs';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import EmojiSelector from 'react-native-emoji-selector';
@@ -17,6 +18,9 @@ import iconsPath from '../../constants/iconsPath';
 import colors from '../../style/colors';
 import AttachmentModal from './AttachmentModal';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { pickContact } from './PickContact';
+import { pickDocument } from './PickDocument';
+import ContactPickerModal from './ContactPickerModal';
 
 const ChatMessageComp = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
@@ -25,7 +29,8 @@ const ChatMessageComp = ({ onSendMessage }) => {
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
 
   const audioRecorderPlayer = useRef(new AudioRecorderPlayer()).current;
-
+  const [contacts, setContacts] = useState([]);
+  const [showContactModal, setShowContactModal] = useState(false);
   const requestPermissions = async () => {
     if (Platform.OS === 'android') {
       const result = await PermissionsAndroid.request(
@@ -64,6 +69,39 @@ const ChatMessageComp = ({ onSendMessage }) => {
         }
       }
     });
+  };
+
+
+  const handlePickContact = async () => {
+    try {
+      const permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS
+      );
+
+      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+        const list = await Contacts.getAll();
+        setContacts(list);
+        setShowContactModal(true);
+      } else {
+        console.warn('Contacts permission denied');
+      }
+    } catch (err) {
+      console.log('Error picking contact:', err);
+    }
+  };
+
+
+  const handlePickDocument = async () => {
+    const doc = await pickDocument();
+    if (doc) {
+      const newMessage = {
+        type: 'document',
+        text: doc.name,
+        uri: doc.uri,
+        time: new Date().toLocaleTimeString(),
+      };
+      onSendMessage(newMessage);
+    }
   };
   const getAudioPath = () => {
     const filename = `voice_${Date.now()}.mp3`;
@@ -115,6 +153,8 @@ const ChatMessageComp = ({ onSendMessage }) => {
   const handleEmojiSelect = (emoji) => {
     setMessage(prev => prev + emoji);
   };
+
+
 
   return (
     <>
@@ -169,7 +209,10 @@ const ChatMessageComp = ({ onSendMessage }) => {
         onClose={() => setShowAttachmentModal(false)}
         onPickGallery={pickGallery}
         onPickCamera={pickCamera}
+        onPickContact={handlePickContact}
+        onPickDocument={handlePickDocument}
       />
+
       {showEmojiPicker && (
         <EmojiSelector
           onEmojiSelected={handleEmojiSelect}
@@ -181,6 +224,22 @@ const ChatMessageComp = ({ onSendMessage }) => {
           style={{ height: verticalScale(250) }}
         />
       )}
+
+      <ContactPickerModal
+        visible={showContactModal}
+        contacts={contacts}
+        onClose={() => setShowContactModal(false)}
+        onSelect={(contact) => {
+          const newMessage = {
+            type: 'contact',
+            text: contact.displayName,
+            phone: contact.phoneNumbers?.[0]?.number || 'No number',
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          };
+          onSendMessage(newMessage);
+        }}
+      />
+
     </>
   );
 };
