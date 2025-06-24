@@ -13,4 +13,5 @@ export default {
   // ✅ New screen keys
   CREATE_COMMUNITY: 'CreateCommunity',
   NEW_COMMUNITY: 'NewCommunityScreen',
+  STORY:'StoryView'
 };

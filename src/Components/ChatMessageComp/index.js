@@ -7,7 +7,11 @@ import {
   Platform,
   PermissionsAndroid,
   StyleSheet,
+  Alert,
+  Linking
 } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+
 import Contacts from 'react-native-contacts';
 import RNFS from 'react-native-fs';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
@@ -54,6 +58,46 @@ const ChatMessageComp = ({ onSendMessage }) => {
       }
     });
   };
+ const handleShareLocation = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Location Permission',
+        message: 'This app needs access to your location to open map.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      }
+    );
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+
+          // Open map and let user pick the location manually (Google Maps)
+          const mapUrl = `geo:${latitude},${longitude}?q=${latitude},${longitude}`;
+          Linking.openURL(mapUrl);
+        },
+        (error) => {
+          console.warn(error.code, error.message);
+          Alert.alert('Location Error', error.message);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+        }
+      );
+    } else {
+      Alert.alert('Permission Denied', 'Location permission is required to show the map.');
+    }
+  } catch (err) {
+    console.warn('Location permission error:', err);
+  }
+};
+
 
   // Handler for Camera
   const pickCamera = () => {
@@ -211,6 +255,7 @@ const ChatMessageComp = ({ onSendMessage }) => {
         onPickCamera={pickCamera}
         onPickContact={handlePickContact}
         onPickDocument={handlePickDocument}
+        onPickLocation={handleShareLocation} 
       />
 
       {showEmojiPicker && (
@@ -219,8 +264,8 @@ const ChatMessageComp = ({ onSendMessage }) => {
           showSearchBar={false}
           showTabs={true}
           showSectionTitles={false}
-          emojiStyle={{ fontSize: 28 }}
-          columns={8}
+          emojiStyle={{ fontSize: 10 }}
+          columns={10}
           style={{ height: verticalScale(250) }}
         />
       )}
@@ -260,7 +305,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(10),
     paddingVertical: verticalScale(2),
     backgroundColor: colors.white,
-    elevation: 2,
+
     zIndex: 1,
     borderWidth: 0.5,
     borderRadius: moderateScale(32),

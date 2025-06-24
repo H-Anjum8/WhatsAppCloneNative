@@ -2,26 +2,50 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import colors from '../../style/colors';
+import iconsPath from '../../constants/iconsPath';
 
-const LongCardBtn = ({ title, message, image, time, onPress, unreadCount = 0, isGroup = false }) => {
+const LongCardBtn = ({
+  title,
+  message,
+  image,
+  time,
+  onPress,
+  unreadCount = 0,
+  isGroup = false,
+  seen, // 'sent' | 'seen'
+}) => {
+
   const formatTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-return (
+  return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={image} style={styles.image} />
       <View style={styles.textContainer}>
+
+        {/* Title & Time */}
         <View style={styles.headerRow}>
           <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>{formatTime(time)}</Text>
+          <Text style={styles.subtitle}>{formatTime(time)}</Text>
         </View>
 
-        <View>
-          <Text style={styles.message} numberOfLines={1}>
-            {message}
-          </Text>
+        {/* Ticks + Message + Badge */}
+        <View style={styles.bottomRow}>
+          {/* Ticks */}
+          {unreadCount > 0 ? (
+            <Image source={iconsPath.sigaltick} style={styles.tickIcon} />
+          ) : seen === 'sent' ? (
+            <Image source={iconsPath.graytick} style={styles.tickIcon} />
+          ) : seen === 'seen' ? (
+            <Image source={iconsPath.bluetick} style={styles.tickIcon} />
+          ) : null}
+
+          {/* Message */}
+          <Text style={styles.message} numberOfLines={1}>{message}</Text>
+
+          {/* Badge */}
           {unreadCount > 0 && (
             <View style={styles.badge}>
               <Text style={styles.badgeText}>{unreadCount}</Text>
@@ -30,7 +54,6 @@ return (
         </View>
 
       </View>
-
     </TouchableOpacity>
   );
 };
@@ -39,11 +62,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     padding: moderateScale(10),
-
-
     alignItems: 'center',
     position: 'relative',
-
     marginHorizontal: moderateScale(10),
   },
   image: {
@@ -57,46 +77,41 @@ const styles = StyleSheet.create({
   },
   headerRow: {
     flexDirection: 'row',
-    justifyContent:'space-between',
-    gap: 8,
-  },
-  
-  groupTag: {
-    fontSize: 10,
-    backgroundColor: '#ddd',
-    color: '#555',
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    borderRadius: 4,
-    marginLeft: 6,
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: moderateScale(17),
     fontWeight: '500',
     lineHeight: verticalScale(28),
-    color: colors.blackOpacity70,
+    color: colors.black,
   },
   subtitle: {
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(12),
     fontWeight: '400',
-    lineHeight: verticalScale(28),
+    lineHeight: verticalScale(25),
     color: colors.blackOpacity50,
   },
-
+  bottomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+  },
   message: {
     fontSize: 14,
     color: '#555',
-    marginTop: 4,
-    width:150,
+    flex: 1,
+    marginLeft: 6,
+  },
+  tickIcon: {
+    width: 20,
+    height: 25,
   },
   badge: {
     backgroundColor: colors.theme,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 10,
-    position: 'absolute',
-    right: 10,
-    top: 6,
+    marginLeft: 8,
   },
   badgeText: {
     color: 'white',

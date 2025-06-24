@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor:'#F5F5F5' 
   },
   messageContainer: {
     paddingVertical: verticalScale(12),

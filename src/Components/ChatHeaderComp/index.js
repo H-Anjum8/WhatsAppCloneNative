@@ -21,7 +21,7 @@ const ChatHeaderComp = ({ title, image, onAudioCallPress }) => {
             image={iconsPath.backArrowIcon}
             width={30}
             height={30}
-            tintColor={colors.white}
+            tintColor={colors.black}
           />
           <ImageContainer style={styles.img} image={image} width={40} height={40} />
         </TouchableOpacity>
@@ -31,7 +31,7 @@ const ChatHeaderComp = ({ title, image, onAudioCallPress }) => {
       </View>
 
       <View style={styles.rightContainer}>
-        <HeaderButton image={iconsPath.videoCallIcon} size={30} />
+        <HeaderButton image={iconsPath.videoCallIcon} size={30}     />
         <HeaderButton image={iconsPath.callIcon} size={25} onPress={onAudioCallPress} />
         <HeaderButton image={iconsPath.menuIcon} size={30} />
       </View>
@@ -40,19 +40,19 @@ const ChatHeaderComp = ({ title, image, onAudioCallPress }) => {
 };
 
 const HeaderButton = ({ image, size, onPress }) => (
-  <TouchableOpacity onPress={onPress}>
-    <ImageContainer
-      image={image}
-      width={size}
-      height={size}
-      tintColor={colors.white}
-    />
-  </TouchableOpacity>
+ <TouchableOpacity onPress={onPress} style={{  padding: 6, borderRadius: 20 }}>
+  <ImageContainer
+    image={image}
+    width={size}
+    height={size}
+    
+  />
+</TouchableOpacity>
 );
 export default ChatHeaderComp;
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.theme,
+    backgroundColor: colors.white,
     paddingVertical: verticalScale(9),
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: moderateScale(17),
-    fontWeight: '600',
-    color: colors.white,
+    fontWeight: '400',
+    color: colors.black,
     marginLeft: scale(7),
   },
   leftContainer: {

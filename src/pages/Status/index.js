@@ -2,38 +2,71 @@ import React from 'react';
 import { View, ScrollView, TouchableOpacity, Image, Text, StyleSheet, FlatList } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import imagePath from '../../constants/imagePath';
-
+import { useNavigation } from '@react-navigation/native';
 const Status = () => {
+const navigation = useNavigation();
   const statusData = [
-    {
-      id: 1,
-      title: 'Add status',
+  {
+    id: 1,
+    title: 'Add status',
+    dpImage: imagePath.user2,
+    isMyStatus: true,
+    story: {
       image: imagePath.null,
-      dpImage: imagePath.user2,
-      isMyStatus: true,
+      time: 2,
     },
-    {
-      id: 2,
-      title: 'Zainab',
-      image: imagePath.statusBg2,
-      dpImage: imagePath.user1,
-      hasStory: true,
+  },
+  {
+    id: 2,
+    title: 'Zainab',
+    dpImage: imagePath.user1,
+    hasStory: true,
+    story: {
+      image: imagePath.statusBg6,
+      time: 1,
     },
-    {
-      id: 3,
-      title: 'Ak Resaler',
+  },
+  {
+    id: 3,
+    title: 'Ak Resaler',
+    dpImage: imagePath.user3,
+    hasStory: true,
+    story: {
       image: imagePath.statusBg3,
-      dpImage: imagePath.user3,
-      hasStory: true,
+      time: 3,
     },
-    {
-      id: 4,
-      title: 'ShamshaArshad',
+  },
+  {
+    id: 4,
+    title: 'ShamshaArshad',
+    dpImage: imagePath.user4,
+    hasStory: true,
+    story: {
       image: imagePath.statusBg4,
-      dpImage: imagePath.user4,
-      hasStory: true,
+      time: 4,
     },
-  ];
+  },
+  {
+    id: 5,
+    title: 'usman bhai',
+    dpImage: imagePath.user5,
+    hasStory: true,
+    story: {
+      image: imagePath.statusBg5,
+      time: 5,
+    },
+  },
+  {
+    id: 7,
+    title: 'appi',
+    dpImage: imagePath.user9,
+    hasStory: true,
+    story: {
+      image: imagePath.statusBg3,
+      time: 6,
+    },
+  },
+];
 
   const channelData = [
     {
@@ -75,23 +108,39 @@ const Status = () => {
       followers: '223K followers',
       image: imagePath.user7,
     },
+    
   ];
 
-  const renderStatusItem = ({ item }) => (
-    <TouchableOpacity style={styles.statusItem}>
-      <Image source={item.image} style={styles.statusImage} />
-      <View style={styles.dpWrapper}>
-        {item.hasStory && <View style={styles.storyRing} />}
-        <Image source={item.dpImage} style={styles.dpImage} />
-        {item.isMyStatus && (
-          <View style={styles.addButton}>
-            <Text style={styles.addButtonText}>+</Text>
-          </View>
-        )}
-      </View>
-      <Text style={styles.statusTitle} numberOfLines={1}>{item.title}</Text>
-    </TouchableOpacity>
-  );
+const renderStatusItem = ({ item }) => (
+  <TouchableOpacity
+    style={styles.statusItem}
+    onPress={() => {
+      if (!item.isMyStatus && item.hasStory) {
+        navigation.navigate('StoryView', {
+          item: {
+            username: item.title,
+            profile: item.dpImage,
+            story: item.story,
+          },
+        });
+      }
+    }}
+  >
+    <Image source={item.story?.image || imagePath.null} style={styles.statusImage} />
+    <View style={styles.dpWrapper}>
+      {item.hasStory && <View style={styles.storyRing} />}
+      <Image source={item.dpImage} style={styles.dpImage} />
+      {item.isMyStatus && (
+        <View style={styles.addButton}>
+          <Text style={styles.addButtonText}>+</Text>
+        </View>
+      )}
+    </View>
+    <Text style={styles.statusTitle} numberOfLines={1}>
+      {item.title}
+    </Text>
+  </TouchableOpacity>
+);
 
   const renderChannelItem = ({ item }) => (
     <TouchableOpacity style={styles.channelItem}>
@@ -172,7 +221,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: scale(16),
+    paddingHorizontal: scale(10),
     paddingTop: scale(8),
     backgroundColor: '#FFFFFF',
   },
@@ -203,7 +252,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: scale(18),
-    fontWeight: '600',
+    fontWeight: '500',
     color: '#000',
     marginBottom: verticalScale(8),
   },

@@ -26,5 +26,11 @@ gallery: require('../assets/icons/gallery.png'),
    avators:require('../assets/icons/avators.png'),
   backArrow:require('../assets/icons/backArrow.png'),
   refresh:require('../assets/icons/refresh.png'),
+  bluetick:require('../assets/icons/bluetick.jpeg'),
+  graytick:require('../assets/icons/graytick.jpeg'),
+ sigaltick:require('../assets/icons/sigaltick.jpeg'),
+  send:require('../assets/icons/send.png'),
+  playbuttton:require('../assets/icons/playbuttton.png'),
+  pause:require('../assets/icons/pause.png'),
+
 };
-  

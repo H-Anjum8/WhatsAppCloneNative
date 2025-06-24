@@ -6,6 +6,7 @@ import CreateCommunity from '../pages/CommunityScreen/CreateCommunity'
 import TabNavigator from './TabNavigator';
 import AudioCallScreen from '../pages/Chat/AudioCallScreen';
 import NewCommunityScreen from '../pages/CommunityScreen/NewCommunityScreen';
+import StoryView from '../Components/StatusCardComp/StoryView';
 
 const MainStack = Stack => {
   return (
@@ -30,6 +31,11 @@ const MainStack = Stack => {
         name={navigationString.NEW_COMMUNITY}
         component={NewCommunityScreen}
       />
+       <Stack.Screen
+    name={navigationString.STORY}
+    component={StoryView}
+    options={{ headerShown: false }}
+  />
     </>
   );
 };

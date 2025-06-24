@@ -16,12 +16,14 @@ const options = [
  
 ];
 
-const AttachmentModal = ({ visible, onClose,onPickGallery, onPickCamera, onPickContact, onPickDocument  }) => {
+const AttachmentModal = ({ visible, onClose, onPickGallery, onPickCamera, onPickContact, onPickDocument, onPickLocation }) => {
+
    const handlePress = (label) => {
     if (label === 'Gallery') onPickGallery?.();
     else if (label === 'Camera') onPickCamera?.();
     else if (label === 'Contact') onPickContact?.();
     else if (label === 'Document') onPickDocument?.();
+      else if (label === 'Location') onPickLocation?.(); 
     onClose();
   };
   return (
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   item: {
-   width:'23%',
+   width:'24%',
     alignItems: 'center',
      borderWidth:1,
      borderRadius:20,
